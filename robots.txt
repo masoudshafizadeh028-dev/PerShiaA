@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://masoudshafizadeh028-dev.github.io/PerShiaA/sitemap.xml
