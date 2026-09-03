@@ -1,0 +1,110 @@
+name: پیشنهاد ویژگی جدید
+description: ایده‌ای برای بهبود پروژه دارید؟ با ما در میان بگذارید
+title: "[Feature]: "
+labels: ["enhancement", "ایده", "نیاز-بررسی"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        💡 ایده شما می‌تواند آینده پروژه PerShiaA را شکل دهد! لطفاً فرم زیر را با دقت پر کنید.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: مشکلی که حل می‌شود
+      description: این ویژگی چه مشکلی را حل می‌کند؟ چه نیازی را برطرف می‌کند؟
+      placeholder: |
+        من همیشه در جستجوی مقالات خاصی هستم اما سیستم جستجوی فعلی فقط در عناوین جستجو می‌کند...
+        یا: من می‌خواهم بتوانم پیشرفت مطالعات خودم را در پلتفرم ذخیره کنم...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: راه‌حل پیشنهادی شما
+      description: توضیح دهید ویژگی مورد نظر شما چگونه باید کار کند
+      placeholder: |
+        پیشنهاد من این است که یک بخش 'کتابخانه شخصی' اضافه کنیم که کاربران بتوانند...
+        ویژگی باید شامل موارد زیر باشد:
+        1. امکان نشانه‌گذاری مقالات
+        2. دسته‌بندی نشانه‌گذاری‌ها
+        3. همگام‌سازی بین دستگاه‌ها
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: راه‌حل‌های جایگزین
+      description: آیا راه‌حل‌های دیگری را برای این مشکل در نظر گرفته‌اید؟
+      placeholder: در عوض می‌توانیم یک سیستم برچسب‌گذاری ساده‌تر پیاده‌سازی کنیم که...
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: حوزه مربوطه
+      description: این ویژگی مربوط به کدام بخش پروژه است؟
+      multiple: true
+      options:
+        - طراحی و تجربه کاربری (UI/UX)
+        - جستجو و فیلتر محتوا
+        - نقشه ذهنی
+        - نقشه راه توسعه
+        - داشبورد ارتقاء
+        - تولید و مدیریت محتوا
+        - عملکرد و سرعت
+        - دسترس‌پذیری
+        - SEO و اشتراک‌گذاری اجتماعی
+        - سایر
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: سطح اولویت
+      description: به نظر شما این ویژگی چقدر مهم است؟
+      options:
+        - ایده جالب، برای آینده
+        - بهبود خوب، اولویت متوسط
+        - مهم، تجربه کاربر را به طور قابل توجهی بهبود می‌دهد
+        - ضروری، پروژه بدون آن کامل نیست
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: نمونه‌ها و منابع الهام
+      description: آیا ویژگی مشابهی را در وبسایت‌های دیگر دیده‌اید؟ لینک بدهید
+      placeholder: |
+        چیزی شبیه به سیستم نشانه‌گذاری در سایت X:
+        https://example.com/feature
+        یا طرحی که در اینجا می‌بینید:
+        [لینک به طرح یا تصویر]
+
+  - type: textarea
+    id: mockup
+    attributes:
+      label: طرح یا تصویر (اختیاری)
+      description: اگر طرحی برای این ویژگی دارید، اینجا به اشتراک بگذارید
+      placeholder: تصاویر را اینجا بکشید و رها کنید
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: اطلاعات تکمیلی
+      description: هر توضیح دیگری که می‌خواهید اضافه کنید
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: قبل از ارسال
+      options:
+        - label: من Issues قبلی را جستجو کردم و پیشنهاد مشابهی پیدا نکردم
+          required: true
+        - label: من توضیحات پروژه و نقشه راه را خوانده‌ام
+          required: true
+        - label: این پیشنهاد با اهداف و ارزش‌های پروژه PerShiaA هماهنگ است
+          required: true

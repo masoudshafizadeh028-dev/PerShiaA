@@ -1,0 +1,17 @@
+# فایل‌های تولید شده
+dist/
+build/
+node_modules/
+
+# فایل‌های پیکربندی
+*.min.css
+*.min.js
+
+# مستندات قدیمی
+docs/old/
+
+# فایل‌های داده
+*.json
+sitemap.xml
+robots.txt
+CNAME

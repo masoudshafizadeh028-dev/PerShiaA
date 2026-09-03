@@ -1,0 +1,125 @@
+name: گزارش اشکال
+description: مشکلی در وبسایت یا کد پیدا کرده‌اید؟ گزارش دهید
+title: "[Bug]: "
+labels: ["bug", "نیاز-بررسی"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🙏 از گزارش مشکل شما سپاسگزاریم! لطفاً فرم زیر را با دقت پر کنید تا بتوانیم سریع‌تر مشکل را شناسایی و رفع کنیم.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: توضیح مشکل
+      description: توضیحی واضح و مختصر از آنچه اتفاق می‌افتد
+      placeholder: وقتی روی دکمه نقشه ذهنی کلیک می‌کنم، مدال باز نمی‌شود و خطایی در کنسول نمایش داده می‌شود...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: رفتار مورد انتظار
+      description: انتظار شما از عملکرد صحیح چه بود؟
+      placeholder: انتظار داشتم مدال نقشه ذهنی باز شود و بتوانم روی گره‌ها کلیک کنم...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: مراحل بازتولید مشکل
+      description: گام‌به‌گام بگویید چطور می‌توان مشکل را دید
+      placeholder: |
+        1. به صفحه اصلی بروید
+        2. روی دکمه 'نقشه ذهنی' کلیک کنید
+        3. یا میانبر Ctrl+M را فشار دهید
+        4. مشاهده می‌کنید که...
+      render: bash
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: مرورگر
+      description: از چه مرورگری استفاده می‌کنید؟
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Opera
+        - Brave
+        - سایر
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: سیستم عامل
+      description: سیستم عامل شما چیست؟
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+        - سایر
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: نوع دستگاه و اندازه صفحه
+      description: مثل: لپ‌تاپ 15.6 اینچ، موبایل 6.5 اینچ، تبلت
+      placeholder: لپ‌تاپ 1920x1080
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: اسکرین‌شات یا ضبط ویدیو
+      description: در صورت امکان، تصویری از مشکل را ضمیمه کنید
+      placeholder: تصاویر را اینجا بکشید و رها کنید، یا لینک بدهید
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: پیام‌های خطا یا لاگ کنسول
+      description: اگر در کنسول مرورگر خطایی می‌بینید، اینجا کپی کنید
+      render: javascript
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: سطح اولویت
+      description: به نظر شما این مشکل چه سطح اولویتی دارد؟
+      options:
+        - پایین (مشکل ظاهری جزئی)
+        - متوسط (مشکلی در عملکرد بخش خاصی)
+        - بالا (تأثیر منفی بر تجربه کاربر اصلی)
+        - بحرانی (وبسایت کاملاً غیرقابل استفاده)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: اطلاعات تکمیلی
+      description: هر اطلاعات دیگری که فکر می‌کنید کمک‌کننده است
+      placeholder: این مشکل فقط در حالت موبایل رخ می‌دهد، یا از نسخه X به بعد شروع شده...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: قبل از ارسال
+      options:
+        - label: من Issues قبلی را جستجو کردم و مشکل مشابهی پیدا نکردم
+          required: true
+        - label: من آخرین نسخه وبسایت را بررسی کرده‌ام
+          required: true
+        - label: من این مشکل را در مرورگر دیگری هم تست کرده‌ام (در صورت امکان)
