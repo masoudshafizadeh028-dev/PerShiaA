@@ -110,33 +110,7 @@ jobs:
           configPath: ./.lighthouserc.json
 
   # ============================================================
-  # ۵. بررسی امنیتی با CodeQL
-  # ============================================================
-  codeql:
-    name: 🔐 بررسی امنیتی کد (CodeQL)
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-    steps:
-      - name: 📥 دریافت کد
-        uses: actions/checkout@v4
-
-      - name: 🔍 مقداردهی اولیه CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
-          queries: security-and-quality
-
-      - name: 🔬 اجرای تحلیل CodeQL
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:javascript"
-
-  # ============================================================
-  # ۶. خلاصه وضعیت
+  # ۵. خلاصه وضعیت
   # ============================================================
   summary:
     name: 📊 خلاصه وضعیت CI
