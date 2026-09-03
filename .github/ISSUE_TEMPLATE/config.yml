@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: گزارش آسیب‌پذیری امنیتی
+    url: https://github.com/masoudshafizadeh028-dev/PerShiaA/security/advisories/new
+    about: لطفاً آسیب‌پذیری‌های امنیتی را به صورت خصوصی گزارش دهید، نه به صورت Issue عمومی
+  - name: مستندات مشارکت
+    url: https://github.com/masoudshafizadeh028-dev/PerShiaA/blob/main/CONTRIBUTING.md
+    about: قبل از ایجاد Issue، لطفاً راهنمای مشارکت را بخوانید
+  - name: وبسایت زنده
+    url: https://pershiaa.qd.je
+    about: برای مشاهده نسخه فعال پروژه به وبسایت مراجعه کنید

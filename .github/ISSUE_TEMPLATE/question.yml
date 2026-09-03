@@ -1,0 +1,65 @@
+name: سوال یا درخواست راهنمایی
+description: سوالی دارید یا به راهنمایی نیاز دارید؟ بپرسید
+title: "[Question]: "
+labels: ["question", "پشتیبانی"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ❓ خوشحال می‌شویم به سوالات شما پاسخ دهیم! قبل از پرسش، لطفاً مطمئن شوید پاسخ در مستندات نیست.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: سوال شما
+      description: سوال خود را به طور واضح و کامل مطرح کنید
+      placeholder: |
+        می‌خواهم بدانم چگونه می‌توانم در بخش تولید محتوا مشارکت کنم؟
+        یا: چطور می‌توانم وبسایت را روی سیستم خودم اجرا کنم؟
+        یا: آیا برنامه‌ای برای افزودن قابلیت X وجود دارد؟
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: حوزه مربوطه
+      description: سوال شما مربوط به کدام بخش است؟
+      options:
+        - مشارکت در پروژه
+        - اجرای محلی و توسعه
+        - استفاده از وبسایت
+        - محتوا و پژوهش
+        - زیرساخت فنی
+        - مجوز و حقوقی
+        - سایر
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-tried
+    attributes:
+      label: چه کارهایی را امتحان کرده‌اید؟
+      description: اگر سعی کردید پاسخ را پیدا کنید، لطفاً بگویید چه کارهایی انجام داده‌اید
+      placeholder: |
+        من README را خواندم اما در مورد بخش X توضیح کافی نبود
+        سعی کردم در Issues قبلی جستجو کنم اما چیزی پیدا نکردم
+        از گوگل استفاده کردم اما...
+
+  - type: textarea
+    id: context
+    attributes:
+      label: زمینه و اطلاعات تکمیلی
+      description: هر اطلاعات دیگری که کمک می‌کند سوال شما بهتر درک شود
+      placeholder: من تازه‌کار در توسعه وب هستم و می‌خواهم بدانم...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: قبل از ارسال
+      options:
+        - label: من README و مستندات پروژه را خوانده‌ام
+          required: true
+        - label: من Issues قبلی را جستجو کردم و پاسخ مشابهی پیدا نکردم
+          required: true
+        - label: من راهنمای مشارکت (CONTRIBUTING.md) را مرور کرده‌ام

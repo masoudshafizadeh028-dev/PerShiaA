@@ -1,0 +1,38 @@
+{
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "css",
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "vueIndentScriptAndStyle": false,
+  "embeddedLanguageFormatting": "auto",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 120,
+        "htmlWhitespaceSensitivity": "strict"
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "printWidth": 80
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "proseWrap": "always",
+        "printWidth": 80
+      }
+    }
+  ]
+}
