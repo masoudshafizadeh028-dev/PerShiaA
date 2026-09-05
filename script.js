@@ -200,7 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const details = node.getAttribute("data-details");
       const detailBox = document.getElementById("mindmap-details");
       if (detailBox && details) {
-        detailBox.innerHTML = details;
+        const template = document.createElement("template");
+        template.innerHTML = details;
+        detailBox.replaceChildren(...template.content.childNodes);
       }
     });
   });
