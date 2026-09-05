@@ -197,12 +197,19 @@ document.addEventListener("DOMContentLoaded", () => {
     node.addEventListener("click", () => {
       mindNodes.forEach((n) => n.classList.remove("selected"));
       node.classList.add("selected");
-      const details = node.getAttribute("data-details");
+      const title = node.getAttribute("data-title");
+      const desc = node.getAttribute("data-desc");
       const detailBox = document.getElementById("mindmap-details");
-      if (detailBox && details) {
-        const template = document.createElement("template");
-        template.innerHTML = details;
-        detailBox.replaceChildren(...template.content.childNodes);
+      if (detailBox && title) {
+        detailBox.replaceChildren();
+        const bold = document.createElement("b");
+        bold.textContent = title + (desc ? ": " : "");
+        detailBox.appendChild(bold);
+        if (desc) {
+          const textSpan = document.createElement("span");
+          textSpan.textContent = desc;
+          detailBox.appendChild(textSpan);
+        }
       }
     });
   });
