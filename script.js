@@ -1,259 +1,241 @@
-// PerShiaA Interactive JavaScript Engine & Upgrade Management
-
+// Interactions for the static PerShiaA site. No account or server-side state is involved.
 document.addEventListener("DOMContentLoaded", () => {
-  // Elements
   const mindmapModal = document.getElementById("mindmap-modal");
-  const openMindmapBtns = document.querySelectorAll(".open-mindmap");
-  const closeMindmapBtn = document.getElementById("close-mindmap");
-
   const searchModal = document.getElementById("search-modal");
-  const openSearchBtns = document.querySelectorAll(".open-search, .command-bar");
-  const closeSearchBtn = document.getElementById("close-search");
   const searchInput = document.getElementById("search-input");
   const searchResults = document.getElementById("search-results");
+  let activeModal = null;
+  let returnFocus = null;
 
-  // Open / Close Mind Map Modal
-  openMindmapBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      mindmapModal.classList.add("active");
+  function closeModal(restoreFocus = true) {
+    if (!activeModal) return;
+    activeModal.classList.remove("active");
+    activeModal.hidden = true;
+    activeModal.setAttribute("aria-hidden", "true");
+    activeModal = null;
+    document.body.classList.remove("modal-open");
+    document.querySelectorAll("body > header, body > main, body > footer").forEach((region) => {
+      region.inert = false;
     });
-  });
-
-  if (closeMindmapBtn) {
-    closeMindmapBtn.addEventListener("click", () => {
-      mindmapModal.classList.remove("active");
-    });
+    if (restoreFocus && returnFocus?.isConnected) returnFocus.focus();
+    returnFocus = null;
   }
 
-  // Open / Close Search Modal
-  openSearchBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      searchModal.classList.add("active");
-      if (searchInput) searchInput.focus();
+  function openModal(modal) {
+    if (activeModal === modal) return;
+    const opener = activeModal ? returnFocus : document.activeElement;
+    if (activeModal) closeModal(false);
+    returnFocus = opener;
+    activeModal = modal;
+    modal.hidden = false;
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    document.querySelectorAll("body > header, body > main, body > footer").forEach((region) => {
+      region.inert = true;
     });
-  });
-
-  if (closeSearchBtn) {
-    closeSearchBtn.addEventListener("click", () => {
-      searchModal.classList.remove("active");
-    });
+    (modal === searchModal ? searchInput : modal.querySelector(".close-btn")).focus();
   }
 
-  // Keyboard Shortcuts (⌘K for Search, ⌘M for Mind Map, ESC to Close)
-  document.addEventListener("keydown", (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      searchModal.classList.add("active");
-      if (searchInput) searchInput.focus();
-    }
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "m") {
-      e.preventDefault();
-      mindmapModal.classList.add("active");
-    }
-    if (e.key === "Escape") {
-      mindmapModal.classList.remove("active");
-      searchModal.classList.remove("active");
-    }
+  document.querySelectorAll(".open-mindmap").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      openModal(mindmapModal);
+    });
   });
-
-  // Close modals on clicking backdrop
+  document.querySelectorAll(".open-search").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      openModal(searchModal);
+    });
+  });
+  document.getElementById("close-mindmap").addEventListener("click", () => closeModal());
+  document.getElementById("close-search").addEventListener("click", () => closeModal());
   [mindmapModal, searchModal].forEach((modal) => {
-    if (modal) {
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          modal.classList.remove("active");
-        }
-      });
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey) {
+      if (event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        openModal(searchModal);
+      } else if (event.key.toLowerCase() === "m") {
+        event.preventDefault();
+        openModal(mindmapModal);
+      }
+    }
+    if (event.key === "Escape" && activeModal) {
+      event.preventDefault();
+      closeModal();
+    }
+    if (event.key !== "Tab" || !activeModal) return;
+    const focusable = [
+      ...activeModal.querySelectorAll('a[href], button, input, [tabindex]:not([tabindex="-1"])'),
+    ].filter((element) => !element.disabled && !element.hidden);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (
+      event.shiftKey &&
+      (document.activeElement === first || !activeModal.contains(document.activeElement))
+    ) {
+      event.preventDefault();
+      last.focus();
+    } else if (
+      !event.shiftKey &&
+      (document.activeElement === last || !activeModal.contains(document.activeElement))
+    ) {
+      event.preventDefault();
+      first.focus();
     }
   });
 
-  // Search Functionality
+  // Index the actual visible page content, rather than maintaining a second, stale list.
   const searchableContent = [
-    {
-      title: "اندیشه و نظریه",
-      text: "مبانی فکری، انسان‌شناسی، فلسفه اجتماعی و نظریه‌های تمدنی",
-      link: "#thought",
+    ...[...document.querySelectorAll(".card")].map((card) => ({
+      title: card.querySelector("h3").textContent.trim(),
+      text: card.querySelector("p").textContent.trim(),
+      link: `#${card.id}`,
       category: "محورهای محتوایی",
-    },
-    {
-      title: "فرهنگ و جامعه",
-      text: "تحلیل فرهنگ، هویت، خانواده، آموزش، رسانه و تحولات اجتماعی",
-      link: "#society",
-      category: "محورهای محتوایی",
-    },
-    {
-      title: "علم و فناوری",
-      text: "نسبت علم، فناوری، نوآوری و قدرت تمدنی در جهان معاصر",
-      link: "#science",
-      category: "محورهای محتوایی",
-    },
-    {
-      title: "اقتصاد و پیشرفت",
-      text: "اقتصاد، تولید، عدالت، حکمرانی اقتصادی و الگوهای پیشرفت",
-      link: "#economy",
-      category: "محورهای محتوایی",
-    },
-    {
-      title: "حکمرانی و سیاست",
-      text: "نهادها، سیاست‌گذاری، حکمرانی و ظرفیت‌های دولت و جامعه",
-      link: "#governance",
-      category: "محورهای محتوایی",
-    },
-    {
-      title: "راهبرد و آینده",
-      text: "سناریوها، روندها، مسائل راهبردی و طراحی مسیرهای آینده‌نگر",
-      link: "#strategy",
-      category: "محورهای محتوایی",
-    },
-    {
-      title: "فاز ۱: بنیادهای نظری و فلسفی",
-      text: "تدوین درسنامه‌های انسان‌شناسی و هستی‌شناسی تمدنی",
-      link: "#roadmap",
+    })),
+    ...[...document.querySelectorAll(".roadmap-card")].map((card) => ({
+      title: `${card.querySelector(".phase-number").textContent.trim()}: ${card.querySelector("h3").textContent.trim()}`,
+      text: `${card.querySelector("p").textContent.trim()} ${card.querySelector(".roadmap-list").textContent.trim()}`,
+      link: `#${card.id}`,
       category: "نقشه راه جامع",
-    },
-    {
-      title: "فاز ۲: هسته‌های پژوهشی و تحلیل مسائل",
-      text: "نگاشت مسائل کلان حکمرانی، عدالت و اقتصاد دانش‌بنیان",
-      link: "#roadmap",
-      category: "نقشه راه جامع",
-    },
-    {
-      title: "فاز ۳: تولید و انتشار منابع رسانه‌ای",
-      text: "انتشار کتاب، مجلات تخصصی، پادکست‌ها و درسگفتارهای تصویری",
-      link: "#roadmap",
-      category: "نقشه راه جامع",
-    },
-    {
-      title: "فاز ۴: شبکه‌سازی و ارتقاء نهادی",
-      text: "توسعه پلتفرم تعاملی اندیشکده و ارائه توصیه‌نامه‌های سیاست‌پژوهی",
-      link: "#roadmap",
-      category: "نقشه راه جامع",
-    },
-    {
-      title: "ارتقاء و توسعه وبسایت",
-      text: "داشبورد هوشمند پیشرفت پلتفرم و قابلیت ارتقاء قابلیت‌های اندیشکده",
-      link: "#upgrade-center",
-      category: "سامانه ارتقاء",
-    },
+    })),
+    ...["upgrade-center", "about"].map((id) => {
+      const section = document.getElementById(id);
+      return {
+        title: section.querySelector("h2").textContent.trim(),
+        text: section.querySelector(".lead, p:not(.eyebrow)").textContent.trim(),
+        link: `#${id}`,
+        category: id === "about" ? "درباره" : "سامانه ارتقاء",
+      };
+    }),
   ];
 
-  if (searchInput && searchResults) {
-    searchInput.addEventListener("input", (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (!query) {
-        searchResults.innerHTML =
-          '<div class="search-empty">عبارت مورد نظر خود را تایپ کنید...</div>';
-        return;
-      }
-      const filtered = searchableContent.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query) || item.text.toLowerCase().includes(query)
-      );
-
-      if (filtered.length === 0) {
-        searchResults.innerHTML = '<div class="search-empty">نتیجه‌ای یافت نشد.</div>';
-      } else {
-        searchResults.innerHTML = filtered
-          .map(
-            (item) => `
-          <a href="${item.link}" class="search-item" onclick="document.getElementById('search-modal').classList.remove('active')">
-            <span class="search-tag">${item.category}</span>
-            <div class="search-title">${item.title}</div>
-            <div class="search-desc">${item.text}</div>
-          </a>
-        `
-          )
-          .join("");
-      }
-    });
+  function normalize(text) {
+    return text
+      .normalize("NFKC")
+      .toLowerCase()
+      .replace(/[يى]/g, "ی")
+      .replace(/ك/g, "ک")
+      .replace(/[\u064b-\u065f\u0670]/g, "")
+      .replace(/[\u200c\u200d]/g, " ")
+      .replace(/[۰-۹٠-٩]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩".indexOf(digit) % 10))
+      .replace(/(^|[^\d])0+(\d+)/g, "$1$2")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
-  // Interactive Roadmap Filter
+  function renderSearch() {
+    const query = normalize(searchInput.value);
+    searchResults.replaceChildren();
+    const matches = query
+      ? searchableContent.filter((item) => normalize(`${item.title} ${item.text}`).includes(query))
+      : [];
+    if (!matches.length) {
+      const empty = document.createElement("div");
+      empty.className = "search-empty";
+      empty.textContent = query ? "نتیجه‌ای یافت نشد." : "عبارت مورد نظر خود را تایپ کنید...";
+      searchResults.appendChild(empty);
+      return;
+    }
+    matches.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.link;
+      link.className = "search-item";
+      for (const [className, text] of [
+        ["search-tag", item.category],
+        ["search-title", item.title],
+        ["search-desc", item.text],
+      ]) {
+        const child = document.createElement("div");
+        child.className = className;
+        child.textContent = text;
+        link.appendChild(child);
+      }
+      link.addEventListener("click", () => {
+        closeModal(false);
+        const destination = document.getElementById(item.link.slice(1));
+        if (destination.hidden) document.querySelector('[data-filter="all"]').click();
+        destination.setAttribute("tabindex", "-1");
+        destination.focus({ preventScroll: true });
+        destination.addEventListener("blur", () => destination.removeAttribute("tabindex"), {
+          once: true,
+        });
+      });
+      searchResults.appendChild(link);
+    });
+  }
+  searchInput.addEventListener("input", renderSearch);
+
+  // Filter roadmap phases without losing their natural display/layout.
   const filterBtns = document.querySelectorAll(".roadmap-filter-btn");
   const roadmapCards = document.querySelectorAll(".roadmap-card");
-
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const filter = btn.getAttribute("data-filter");
-
+      filterBtns.forEach((other) => {
+        other.classList.toggle("active", other === btn);
+        other.setAttribute("aria-pressed", String(other === btn));
+      });
       roadmapCards.forEach((card) => {
-        if (filter === "all" || card.getAttribute("data-status") === filter) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
+        card.hidden = btn.dataset.filter !== "all" && card.dataset.status !== btn.dataset.filter;
       });
     });
   });
 
-  // Mind Map Interactive Nodes
   const mindNodes = document.querySelectorAll(".mm-node");
+  const detailBox = document.getElementById("mindmap-details");
   mindNodes.forEach((node) => {
     node.addEventListener("click", () => {
-      mindNodes.forEach((n) => n.classList.remove("selected"));
-      node.classList.add("selected");
-      const title = node.getAttribute("data-title");
-      const desc = node.getAttribute("data-desc");
-      const detailBox = document.getElementById("mindmap-details");
-      if (detailBox && title) {
-        detailBox.replaceChildren();
-        const bold = document.createElement("b");
-        bold.textContent = title + (desc ? ": " : "");
-        detailBox.appendChild(bold);
-        if (desc) {
-          const textSpan = document.createElement("span");
-          textSpan.textContent = desc;
-          detailBox.appendChild(textSpan);
-        }
-      }
+      mindNodes.forEach((other) => {
+        other.classList.toggle("selected", other === node);
+        other.setAttribute("aria-pressed", String(other === node));
+      });
+      detailBox.replaceChildren();
+      const bold = document.createElement("b");
+      bold.textContent = `${node.dataset.title}: `;
+      detailBox.append(bold, document.createTextNode(node.dataset.desc));
     });
   });
 
-  // Upgrade & Dynamic Progress Tracker Engine
+  // This checklist is personal and local; it is not the project's public roadmap.
   const upgradeItems = document.querySelectorAll(".upgrade-checkbox");
   const totalProgressFill = document.getElementById("total-progress-fill");
   const totalProgressPercent = document.getElementById("total-progress-percent");
   const totalMilestoneCount = document.getElementById("total-milestone-count");
-
-  // Load state from localStorage
-  function loadUpgradeState() {
-    upgradeItems.forEach((checkbox) => {
-      const id = checkbox.id;
-      const saved = localStorage.getItem("pershiaa_upgrade_" + id);
-      if (saved === "true") {
-        checkbox.checked = true;
-      }
-    });
-    updateUpgradeStats();
-  }
+  const progressBar = document.getElementById("upgrade-progress");
 
   function updateUpgradeStats() {
-    let completed = 0;
-    upgradeItems.forEach((checkbox) => {
-      if (checkbox.checked) {
-        completed++;
-      }
-    });
+    const completed = [...upgradeItems].filter((checkbox) => checkbox.checked).length;
     const total = upgradeItems.length;
-    const percentage = Math.round((completed / total) * 100);
-
-    if (totalProgressFill) totalProgressFill.style.width = percentage + "%";
-    if (totalProgressPercent) totalProgressPercent.textContent = percentage + "%";
-    if (totalMilestoneCount)
-      totalMilestoneCount.textContent = `${completed} از ${total} گام تکمیل شده`;
+    const percentage = total ? Math.round((completed / total) * 100) : 0;
+    totalProgressFill.style.width = `${percentage}%`;
+    totalProgressPercent.textContent = `${percentage.toLocaleString("fa-IR")}٪`;
+    totalMilestoneCount.textContent = `${completed.toLocaleString("fa-IR")} از ${total.toLocaleString("fa-IR")} گام تکمیل شده`;
+    progressBar.setAttribute("aria-valuenow", String(percentage));
   }
 
   upgradeItems.forEach((checkbox) => {
+    try {
+      const saved = localStorage.getItem(`pershiaa_upgrade_${checkbox.id}`);
+      if (saved === "true" || saved === "false") checkbox.checked = saved === "true";
+    } catch {
+      // Private browsing or blocked storage: keep the defaults and allow interaction.
+    }
     checkbox.addEventListener("change", () => {
-      localStorage.setItem("pershiaa_upgrade_" + checkbox.id, checkbox.checked);
+      try {
+        localStorage.setItem(`pershiaa_upgrade_${checkbox.id}`, String(checkbox.checked));
+      } catch {
+        // The in-page checklist still works when storage is unavailable.
+      }
       updateUpgradeStats();
     });
   });
-
-  loadUpgradeState();
+  updateUpgradeStats();
 });

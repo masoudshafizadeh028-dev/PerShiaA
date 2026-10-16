@@ -1,0 +1,13 @@
+{
+  "name": "pershiaa-site",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "format:check": "prettier --check index.html style.css script.js tests/*.test.js package.json",
+    "format": "prettier --write index.html style.css script.js tests/*.test.js package.json"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2"
+  }
+}
