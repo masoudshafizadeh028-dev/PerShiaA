@@ -1,0 +1,36 @@
+name: 🔒 بررسی HTTPS سایت
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 7 * * 1"
+
+permissions:
+  contents: read
+  pages: read
+
+jobs:
+  check-pages-https:
+    name: بررسی گواهی و اجبار HTTPS در GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: بررسی وضعیت GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_domain="$(tr -d '\r\n' < CNAME)"
+          pages="$(gh api "repos/${GITHUB_REPOSITORY}/pages")"
+          echo "$pages" | jq '{status, cname, certificate: .https_certificate.state, https_enforced, html_url}'
+          if ! echo "$pages" | jq -e --arg domain "$expected_domain" '
+            .status == "built" and
+            .cname == $domain and
+            .https_enforced == true and
+            (.https_certificate.state != null and .https_certificate.state != "bad_authz") and
+            (.html_url | startswith("https://"))
+          ' > /dev/null; then
+            echo '::error::گواهی یا Enforce HTTPS در GitHub Pages آماده نیست؛ HTTPS.md را ببینید.'
+            exit 1
+          fi

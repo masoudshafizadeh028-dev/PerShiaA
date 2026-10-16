@@ -30,10 +30,10 @@ jobs:
         run: html5validator --root . --files index.html
 
   # ============================================================
-  # ۲. بررسی فرمت و سبک کد با Prettier
+  # ۲. تست تعاملات و بررسی فرمت (شکست هر مرحله CI را ناموفق می‌کند)
   # ============================================================
-  check-format:
-    name: 💅 بررسی فرمت کد (Prettier)
+  test-and-format:
+    name: 🧪 تست رفتار و فرمت
     runs-on: ubuntu-latest
     steps:
       - name: 📥 دریافت کد
@@ -43,23 +43,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
 
-      - name: 📦 نصب Prettier
-        run: |
-          npm init -y
-          npm install --save-dev prettier
+      - name: 📦 نصب وابستگی‌های قفل‌شده
+        run: npm ci
 
-      - name: 🔍 بررسی فرمت CSS
-        run: npx prettier --check "**/*.css"
-        continue-on-error: true
+      - name: 🔍 بررسی فرمت
+        run: npm run format:check
 
-      - name: 🔍 بررسی فرمت JavaScript
-        run: npx prettier --check "**/*.js"
-        continue-on-error: true
-
-      - name: 🔍 بررسی فرمت HTML
-        run: npx prettier --check "**/*.html"
-        continue-on-error: true
+      - name: 🧪 اجرای آزمون‌ها
+        run: npm test
 
   # ============================================================
   # ۳. بررسی لینک‌های شکسته
@@ -108,31 +101,3 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: ./.lighthouserc.json
-
-  # ============================================================
-  # ۵. خلاصه وضعیت
-  # ============================================================
-  summary:
-    name: 📊 خلاصه وضعیت CI
-    runs-on: ubuntu-latest
-    needs: [validate-html, check-format, check-links, lighthouse]
-    if: always()
-    steps:
-      - name: ✅ گزارش موفقیت
-        if: needs.validate-html.result == 'success' && needs.check-links.result == 'success'
-        run: |
-          echo "✅ تمام بررسی‌های اصلی با موفقیت گذرانده شدند!"
-          echo "پروژه آماده بازبینی و ادغام است."
-
-      - name: ⚠️ گزارش هشدار
-        if: needs.validate-html.result == 'success' && (needs.check-format.result != 'success' || needs.lighthouse.result != 'success')
-        run: |
-          echo "⚠️ بررسی‌های اصلی موفق بودند اما برخی بررسی‌های جانبی هشدار دارند."
-          echo "لطفاً جزئیات کارهای بالا را بررسی کنید."
-
-      - name: ❌ گزارش خطا
-        if: needs.validate-html.result != 'success' || needs.check-links.result != 'success'
-        run: |
-          echo "❌ برخی بررسی‌های اصلی شکست خورده‌اند."
-          echo "لطفاً مشکلات را رفع کنید و دوباره تلاش کنید."
-          return 1 2>/dev/null || true

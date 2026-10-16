@@ -9,7 +9,7 @@
       content="PerShiaA؛ اندیشکده تمدنی و پایگاهی برای مطالعه، تحلیل، تولید منابع و نقشه راه جامع تمدن نوین اسلامی."
     />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://masoudshafizadeh028-dev.github.io/PerShiaA/" />
+    <link rel="canonical" href="https://pershiaa.qd.je/" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -17,7 +17,7 @@
     <header class="site-header">
       <div class="container nav-wrap">
         <a class="brand" href="./" aria-label="PerShiaA">PerShiaA<span class="brand-dot">.</span></a>
-        <button class="command-bar open-search" aria-label="جستجو در فضای دانش">
+        <button type="button" class="command-bar open-search" aria-label="جستجو در فضای دانش">
           <span class="command-key">⌘K</span>
           <span class="command-hint">جستجو در فضای دانش…</span>
         </button>
@@ -26,7 +26,7 @@
           <a href="#thought">اندیشه</a>
           <a href="#roadmap">نقشه راه</a>
           <a href="#upgrade-center">پیشرفت و ارتقاء</a>
-          <a href="#mindmap" class="open-mindmap">نقشه ذهنی <span class="badge-sm">⌘M</span></a>
+          <a href="#mindmap-preview" class="open-mindmap">نقشه ذهنی <span class="badge-sm">⌘M</span></a>
           <a href="#strategy">راهبرد</a>
           <a href="#about">درباره</a>
         </nav>
@@ -47,7 +47,7 @@
               و زیرساخت‌های تولید دانش.</p
             >
             <div class="actions">
-              <a class="button primary open-mindmap" href="#mindmap">
+              <a class="button primary open-mindmap" href="#mindmap-preview">
                 <svg
                   width="18"
                   height="18"
@@ -72,7 +72,7 @@
               <span>ساختار شبکه‌ای اندیشکده</span>
               <span class="pulse-indicator"></span>
             </div>
-            <div class="node-cloud" aria-label="محورهای تمدنی">
+            <div class="node-cloud" role="group" aria-label="محورهای تمدنی">
               <a href="#thought" class="node-item">اندیشه</a>
               <a href="#society" class="node-item">فرهنگ</a>
               <a href="#science" class="node-item">علم</a>
@@ -80,7 +80,7 @@
               <a href="#governance" class="node-item">حکمرانی</a>
               <a href="#strategy" class="node-item">راهبرد</a>
               <a href="#roadmap" class="node-item highlight">نقشه راه</a>
-              <a href="#mindmap" class="node-item open-mindmap highlight">نقشه ذهنی</a>
+              <a href="#mindmap-preview" class="node-item open-mindmap highlight">نقشه ذهنی</a>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
               >
             </div>
             <div class="shortcut-actions">
-              <button class="button primary open-mindmap"> نمایش گراف نقشه ذهنی (⌘M) </button>
+              <button type="button" class="button primary open-mindmap"> نمایش گراف نقشه ذهنی (⌘M) </button>
             </div>
           </div>
         </div>
@@ -166,17 +166,25 @@
           </div>
 
           <!-- Filter tabs -->
-          <div class="roadmap-filters">
-            <button class="roadmap-filter-btn active" data-filter="all">همه فازها</button>
-            <button class="roadmap-filter-btn" data-filter="completed">تکمیل شده</button>
-            <button class="roadmap-filter-btn" data-filter="in-progress">در حال اجرا</button>
-            <button class="roadmap-filter-btn" data-filter="upcoming">فازهای آتی</button>
+          <div class="roadmap-filters" role="group" aria-label="فیلتر فازهای نقشه راه">
+            <button type="button" class="roadmap-filter-btn active" data-filter="all" aria-pressed="true"
+              >همه فازها</button
+            >
+            <button type="button" class="roadmap-filter-btn" data-filter="completed" aria-pressed="false"
+              >تکمیل شده</button
+            >
+            <button type="button" class="roadmap-filter-btn" data-filter="in-progress" aria-pressed="false"
+              >در حال اجرا</button
+            >
+            <button type="button" class="roadmap-filter-btn" data-filter="upcoming" aria-pressed="false"
+              >فازهای آتی</button
+            >
           </div>
 
           <!-- Timeline Grid -->
           <div class="roadmap-grid">
             <!-- Phase 1 -->
-            <div class="roadmap-card" data-status="completed">
+            <div class="roadmap-card" id="phase-1" data-status="completed">
               <div class="roadmap-header">
                 <span class="phase-number">فاز ۰۱</span>
                 <span class="status-badge completed">تکمیل شده</span>
@@ -194,7 +202,7 @@
             </div>
 
             <!-- Phase 2 -->
-            <div class="roadmap-card" data-status="in-progress">
+            <div class="roadmap-card" id="phase-2" data-status="in-progress">
               <div class="roadmap-header">
                 <span class="phase-number">فاز ۰۲</span>
                 <span class="status-badge in-progress">در حال اجرا</span>
@@ -212,7 +220,7 @@
             </div>
 
             <!-- Phase 3 -->
-            <div class="roadmap-card" data-status="upcoming">
+            <div class="roadmap-card" id="phase-3" data-status="upcoming">
               <div class="roadmap-header">
                 <span class="phase-number">فاز ۰۳</span>
                 <span class="status-badge upcoming">پیش‌رو</span>
@@ -230,7 +238,7 @@
             </div>
 
             <!-- Phase 4 -->
-            <div class="roadmap-card" data-status="upcoming">
+            <div class="roadmap-card" id="phase-4" data-status="upcoming">
               <div class="roadmap-header">
                 <span class="phase-number">فاز ۰۴</span>
                 <span class="status-badge upcoming">پیش‌رو</span>
@@ -259,21 +267,29 @@
                 <p class="eyebrow">سامانه پایش و ارتقاء</p>
                 <h2>داشبورد ارتقاء و پیشرفت وبسایت اندیشکده</h2>
                 <p class="lead"
-                  >قابلیت مدیریت گام‌به‌گام توسعه وبسایت، ثبت پیشرفت منابع و فعال‌سازی بخش‌های جدید به صورت موقت و
-                  تعاملی.</p
+                  >این چک‌لیست فقط در مرورگر شما ذخیره می‌شود و وضعیت واقعی توسعه پروژه یا امکانات سایت را تغییر
+                  نمی‌دهد.</p
                 >
               </div>
               <div class="overall-progress">
                 <div class="progress-circle-text">
-                  <span id="total-progress-percent">35%</span>
-                  <small>میزان پیشرفت کل</small>
+                  <span id="total-progress-percent">۳۳٪</span>
+                  <small>پیشرفت چک‌لیست شما</small>
                 </div>
               </div>
             </div>
 
             <div class="overall-progress-bar-wrap">
-              <div class="progress-bar-container large">
-                <div class="progress-bar" id="total-progress-fill" style="width: 35%"></div>
+              <div
+                class="progress-bar-container large"
+                id="upgrade-progress"
+                role="progressbar"
+                aria-label="پیشرفت چک‌لیست شما"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="33"
+              >
+                <div class="progress-bar" id="total-progress-fill" style="width: 33%"></div>
               </div>
               <span class="milestone-text" id="total-milestone-count">۲ از ۶ گام ارتقاء تکمیل شده</span>
             </div>
@@ -365,7 +381,7 @@
       <div class="container footer-wrap">
         <div> <strong>PerShiaA</strong> - اندیشکده تمدن نوین اسلامی </div>
         <div class="footer-links">
-          <a href="#mindmap" class="open-mindmap">نقشه ذهنی</a>
+          <a href="#mindmap-preview" class="open-mindmap">نقشه ذهنی</a>
           <a href="#roadmap">نقشه راه</a>
           <a href="#upgrade-center">پیشرفت و ارتقاء</a>
           <a href="#about">درباره</a>
@@ -375,85 +391,143 @@
     </footer>
 
     <!-- Modal: Mind Map Interactive Overlay -->
-    <div class="modal" id="mindmap-modal" aria-hidden="true">
+    <div
+      class="modal"
+      id="mindmap-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mindmap-title"
+      aria-hidden="true"
+      hidden
+    >
       <div class="modal-dialog modal-lg">
         <div class="modal-header">
-          <h3>نقشه ذهنی و معماری دانش PerShiaA</h3>
-          <button class="close-btn" id="close-mindmap" aria-label="بستن">&times;</button>
+          <h3 id="mindmap-title">نقشه ذهنی و معماری دانش PerShiaA</h3>
+          <button type="button" class="close-btn" id="close-mindmap" aria-label="بستن">&times;</button>
         </div>
         <div class="modal-body">
           <p class="modal-intro">روی هر یک از گره‌ها کلیک کنید تا جزئیات و مسیر توسعه مربوطه را مشاهده کنید:</p>
 
           <!-- Visual Interactive Mind Map Tree -->
           <div class="mindmap-visual">
-            <div
+            <button
+              type="button"
               class="mm-center mm-node selected"
+              aria-pressed="true"
               data-title="پروژه مرکزی PerShiaA"
               data-desc="هسته مرکزی اندیشکده که تمام محورهای فکری، راهبردی و زیرساخت وبسایت را یکپارچه می‌کند."
             >
               PerShiaA
-            </div>
+            </button>
             <div class="mm-branches">
               <div class="mm-branch">
-                <div
+                <button
+                  type="button"
                   class="mm-node"
+                  aria-pressed="false"
                   data-title="محورهای محتوایی و تمدنی"
                   data-desc="شامل ۶ حوزه کلیدی: اندیشه، فرهنگ، علم، اقتصاد، حکمرانی و راهبرد."
                 >
                   محورهای دانش
-                </div>
+                </button>
                 <div class="mm-subnodes">
-                  <span
+                  <button
+                    type="button"
                     class="mm-node"
+                    aria-pressed="false"
                     data-title="اندیشه و نظریه"
                     data-desc="مبانی انسان‌شناسی، جهان‌بینی و فلسفه اجتماعی."
-                    >اندیشه</span
+                    >اندیشه</button
                   >
-                  <span
+                  <button
+                    type="button"
                     class="mm-node"
+                    aria-pressed="false"
                     data-title="فرهنگ و جامعه"
                     data-desc="هویت، خانواده، سبک زندگی و تحولات اجتماعی."
-                    >فرهنگ</span
+                    >فرهنگ</button
                   >
-                  <span class="mm-node" data-title="علم و فناوری" data-desc="نوآوری، اقتدار علمی و فناوری‌های آینده."
-                    >علم</span
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
+                    data-title="علم و فناوری"
+                    data-desc="نوآوری، اقتدار علمی و فناوری‌های آینده."
+                    >علم</button
                   >
                 </div>
               </div>
               <div class="mm-branch">
-                <div
+                <button
+                  type="button"
                   class="mm-node"
+                  aria-pressed="false"
                   data-title="نقشه راه تولید منابع"
                   data-desc="برنامه ۴ فازی تولید محتوا، کتاب‌های سفید، پژوهش‌ها و توصیه‌نامه‌ها."
                 >
                   تولید منابع
-                </div>
+                </button>
                 <div class="mm-subnodes">
-                  <span class="mm-node" data-title="فاز ۱" data-desc="تدوین بنیادهای نظری و فلسفی.">فاز نظری</span>
-                  <span class="mm-node" data-title="فاز ۲" data-desc="هسته‌های پژوهشی و تحلیل مسائل.">فاز پژوهشی</span>
-                  <span class="mm-node" data-title="فاز ۳" data-desc="انتشار کتب، پادکست و ویدیو.">فاز رسانه‌ای</span>
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
+                    data-title="فاز ۱"
+                    data-desc="تدوین بنیادهای نظری و فلسفی."
+                    >فاز نظری</button
+                  >
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
+                    data-title="فاز ۲"
+                    data-desc="هسته‌های پژوهشی و تحلیل مسائل."
+                    >فاز پژوهشی</button
+                  >
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
+                    data-title="فاز ۳"
+                    data-desc="انتشار کتب، پادکست و ویدیو."
+                    >فاز رسانه‌ای</button
+                  >
                 </div>
               </div>
               <div class="mm-branch">
-                <div
+                <button
+                  type="button"
                   class="mm-node"
+                  aria-pressed="false"
                   data-title="توسعه و ارتقاء وبسایت"
                   data-desc="برنامه ارتقای فنی پلتفرم، زیرساخت‌های هوش مصنوعی، ابزارهای تعاملی و جستجوی دانش."
                 >
                   توسعه وبسایت
-                </div>
+                </button>
                 <div class="mm-subnodes">
-                  <span class="mm-node" data-title="میانبر ⌘K" data-desc="جستجوی هوشمند در منابع و پرونده‌ها."
-                    >جستجوی هوشمند</span
-                  >
-                  <span class="mm-node" data-title="میانبر ⌘M" data-desc="نمایش گراف تعاملی نقشه ذهنی."
-                    >گراف تعاملی</span
-                  >
-                  <span
+                  <button
+                    type="button"
                     class="mm-node"
+                    aria-pressed="false"
+                    data-title="میانبر ⌘K"
+                    data-desc="جستجوی هوشمند در منابع و پرونده‌ها."
+                    >جستجوی هوشمند</button
+                  >
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
+                    data-title="میانبر ⌘M"
+                    data-desc="نمایش گراف تعاملی نقشه ذهنی."
+                    >گراف تعاملی</button
+                  >
+                  <button
+                    type="button"
+                    class="mm-node"
+                    aria-pressed="false"
                     data-title="پلتفرم آینده"
                     data-desc="افزودن داشبورد شاخص‌های تمدنی و شبکه پژوهشگران."
-                    >سامانه تعاملی</span
+                    >سامانه تعاملی</button
                   >
                 </div>
               </div>
@@ -468,19 +542,29 @@
     </div>
 
     <!-- Modal: Command Search Palette -->
-    <div class="modal" id="search-modal" aria-hidden="true">
+    <div
+      class="modal"
+      id="search-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="جستجو در فضای دانش"
+      aria-hidden="true"
+      hidden
+    >
       <div class="modal-dialog">
         <div class="modal-header">
           <input
             type="text"
             id="search-input"
+            aria-label="عبارت جستجو"
+            aria-controls="search-results"
             placeholder="جستجو در مقالات، نقشه راه و مفاهیم اندیشکده..."
             class="search-field"
             autocomplete="off"
           />
-          <button class="close-btn" id="close-search" aria-label="بستن">&times;</button>
+          <button type="button" class="close-btn" id="close-search" aria-label="بستن">&times;</button>
         </div>
-        <div class="modal-body search-body" id="search-results">
+        <div class="modal-body search-body" id="search-results" aria-live="polite">
           <div class="search-empty">عبارت مورد نظر خود را تایپ کنید... (مثلاً: اندیشه، نقشه راه، فاز ۱)</div>
         </div>
       </div>
