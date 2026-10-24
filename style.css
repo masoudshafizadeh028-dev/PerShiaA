@@ -21,6 +21,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 }
 body {
   margin: 0;
@@ -47,6 +48,15 @@ body {
     44px 44px,
     44px 44px;
 }
+body.modal-open {
+  overflow: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .container {
   width: min(1120px, 92%);
   margin: auto;
@@ -443,6 +453,9 @@ body {
   transition: all 0.2s;
   position: relative;
 }
+.roadmap-card[hidden] {
+  display: none;
+}
 .roadmap-card:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
@@ -725,9 +738,11 @@ footer {
   border-radius: 20px;
   width: min(680px, 100%);
   max-height: 85vh;
+  max-height: 85dvh;
   overflow-y: auto;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
   animation: modalIn 0.25s ease-out;
+  overscroll-behavior: contain;
 }
 .modal-dialog.modal-lg {
   width: min(880px, 100%);
@@ -794,6 +809,8 @@ footer {
   padding: 10px 18px;
   font-weight: 600;
   font-size: 0.9rem;
+  font-family: inherit;
+  line-height: inherit;
   color: var(--text);
   cursor: pointer;
   transition: all 0.2s;
@@ -855,7 +872,6 @@ footer {
   width: 100%;
   background: transparent;
   border: none;
-  outline: none;
   color: var(--text);
   font-family: inherit;
   font-size: 1.1rem;
@@ -930,8 +946,21 @@ footer {
   .cards {
     grid-template-columns: 1fr;
   }
+  .nav-wrap {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-block: 10px;
+  }
   .site-header nav {
-    display: none;
+    order: 3;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 4px 2px 8px;
+  }
+  html {
+    scroll-padding-top: 130px;
   }
   .command-bar {
     min-width: auto;
@@ -949,5 +978,17 @@ footer {
   .feature-box {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
